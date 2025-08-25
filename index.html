@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>فيديو محمي</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      background: black;
+      color: #00ff00;
+      font-family: monospace;
+    }
+    #intro {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      font-size: 1.5em;
+      white-space: pre-wrap;
+      text-align: left;
+      padding: 20px;
+    }
+    #video {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      pointer-events: none; /* يمنع أي تفاعل */
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="intro"></div>
+
+  <iframe 
+    id="video"
+    src="https://www.youtube.com/embed/N2neoYs8niw?autoplay=1&controls=0&disablekb=1&modestbranding=1&fs=0&iv_load_policy=3&rel=0&loop=1&playlist=N2neoYs8niw&showinfo=0&autohide=1"
+    allow="autoplay; encrypted-media">
+  </iframe>
+
+  <script>
+    const intro = document.getElementById('intro');
+    const video = document.getElementById('video');
+
+    const lines = [
+      "Initializing system...",
+      "Connecting to YouTube servers...",
+      "Loading encrypted stream...",
+      "Access granted. Starting playback..."
+    ];
+
+    let text = "";
+    let lineIndex = 0;
+    let charIndex = 0;
+
+    function typeEffect() {
+      if (lineIndex < lines.length) {
+        if (charIndex < lines[lineIndex].length) {
+          text += lines[lineIndex][charIndex];
+          intro.textContent = text;
+          charIndex++;
+          setTimeout(typeEffect, 20); // سرعة الكتابة (أسرع)
+        } else {
+          text += "\n";
+          charIndex = 0;
+          lineIndex++;
+          setTimeout(typeEffect, 100); 
+        }
+      } else {
+        setTimeout(() => {
+          intro.style.display = 'none';
+          video.style.display = 'block';
+        }, 500); // نصف ثانية قبل تشغيل الفيديو
+      }
+    }
+
+    typeEffect();
+
+    document.addEventListener('keydown', e => e.preventDefault());
+    document.addEventListener('contextmenu', e => e.preventDefault());
+  </script>
+</body>
+</html>
